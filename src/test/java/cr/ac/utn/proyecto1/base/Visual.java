@@ -1,9 +1,6 @@
 package cr.ac.utn.proyecto1.base;
 
-/**
- * Pausa SOLO para que se pueda ver lo que hace el navegador (igual que en la Semana 5).
- * No es una buena practica de espera. Se controla con -Dritmo=milisegundos (0 = sin pausas).
- */
+/** Pausa solo para observar el navegador, no es una espera. Se controla con -Dritmo=ms (0 = sin pausas). */
 public final class Visual {
     private Visual() {}
 

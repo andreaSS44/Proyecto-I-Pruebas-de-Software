@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-/** Pagina de registro (/register). Page Factory. */
 public class RegisterPage {
 
     public static final String URL = "https://demowebshop.tricentis.com/register";
@@ -39,7 +38,6 @@ public class RegisterPage {
     @FindBy(id = "register-button")
     private WebElement botonRegistrar;
 
-    // Mensaje junto a cada campo: el sitio lo deja vacio cuando el campo es valido.
     @FindBy(css = "[data-valmsg-for='FirstName']")
     private WebElement errorNombre;
 
@@ -58,7 +56,7 @@ public class RegisterPage {
     @FindBy(css = ".field-validation-error")
     private List<WebElement> erroresDeCampos;
 
-    // Errores que valida el servidor (por ejemplo, correo ya registrado). Solo existe si hay error.
+    // Errores del servidor (por ejemplo, correo ya registrado). Solo existe si hay error: por eso es una lista.
     @FindBy(css = ".validation-summary-errors")
     private List<WebElement> resumenErrores;
 
@@ -73,24 +71,19 @@ public class RegisterPage {
         return this;
     }
 
-    /**
-     * Registro que se espera exitoso: lleva a la pagina de resultado.
-     * genero: "M" (masculino), "F" (femenino) o null para no elegir.
-     */
+    /** genero: "M", "F" o null para no elegir. */
     public RegisterResultPage registrar(String genero, String nombre, String apellido,
                                         String correo, String clave, String confirmacion) {
         llenarYEnviar(genero, nombre, apellido, correo, clave, confirmacion);
         return new RegisterResultPage(driver);
     }
 
-    /** Registro que se espera que falle: se permanece en la pagina de registro. */
     public RegisterPage registrarFallido(String genero, String nombre, String apellido,
                                          String correo, String clave, String confirmacion) {
         llenarYEnviar(genero, nombre, apellido, correo, clave, confirmacion);
         return this;
     }
 
-    /** Textos de todos los errores que se muestran junto a los campos. */
     public List<String> erroresDeCampos() {
         List<String> textos = new ArrayList<>();
         for (WebElement error : erroresDeCampos) {
@@ -119,7 +112,6 @@ public class RegisterPage {
         return errorConfirmacion.getText().trim();
     }
 
-    /** Error general del formulario (por ejemplo, correo ya registrado). Vacio si no hay. */
     public String errorGeneral() {
         if (resumenErrores.isEmpty()) {
             return "";

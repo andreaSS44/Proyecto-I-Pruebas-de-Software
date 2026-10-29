@@ -8,11 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-/**
- * Clase base: abre Chrome antes de cada prueba y lo cierra al terminar.
- * Las pruebas usan el sitio publico https://demowebshop.tricentis.com
- * Cada prueba inicia con un navegador limpio (sin sesion ni carrito de otra prueba).
- */
 public abstract class BaseTest {
 
     protected WebDriver driver;

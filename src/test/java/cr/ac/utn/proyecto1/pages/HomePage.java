@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-/** Pagina de inicio y encabezado del sitio (enlaces Register, Log in, cuenta y Log out). Page Factory. */
 public class HomePage {
 
     public static final String URL = "https://demowebshop.tricentis.com/";
@@ -65,7 +64,6 @@ public class HomePage {
         return new HomePage(driver);
     }
 
-    /** Correo que muestra el encabezado cuando hay sesion iniciada. */
     public String cuentaEnEncabezado() {
         return enlaceCuenta.getText().trim();
     }
@@ -74,7 +72,6 @@ public class HomePage {
         return !enlacesSalir.isEmpty();
     }
 
-    /** true si el encabezado muestra Register y Log in (estado de visitante). */
     public boolean muestraOpcionesDeVisitante() {
         return !enlacesRegistro.isEmpty() && !enlacesLogin.isEmpty();
     }

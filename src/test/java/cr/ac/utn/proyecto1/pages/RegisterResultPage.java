@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-/** Resultado del registro (/registerresult/1), a la que se llega despues de registrarse. Page Factory. */
 public class RegisterResultPage {
 
     private final WebDriver driver;
