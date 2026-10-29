@@ -2,3 +2,5 @@ target/
 .idea/
 .vscode/
 *.class
+~$*
+docs/laboratorio2/
