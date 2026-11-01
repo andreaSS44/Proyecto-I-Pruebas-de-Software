@@ -8,8 +8,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ProductosCarritoTest extends BaseTest {
+    @Test
+    @DisplayName("CP-015 Producto sin opcion obligatoria no se agrega al carrito - RF-06")
+    void productoSinDiscoObligatorio() {
+        ProductPage producto = new ProductPage(driver)
+                .abrir("https://demowebshop.tricentis.com/build-your-own-computer");
+        assertEquals("Build your own computer", producto.nombreProducto());
+        assertFalse(producto.hayDiscoSeleccionado(), "La opcion obligatoria HDD debe estar sin seleccionar");
+
+        producto.intentarAgregarAlCarrito(1);
+
+        assertEquals("Please select HDD", producto.mensajeErrorCarrito());
+        CartPage carrito = producto.abrirCarritoDesdeEncabezado();
+        assertEquals(0, carrito.numeroDeProductos(), "El producto incompleto no debe agregarse al carrito");
+    }
+
     @Test
     @DisplayName("CP-014 Cambiar cantidad y recalcular subtotal - RF-05")
     void cambiarCantidadYRecalcularSubtotal() {

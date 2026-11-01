@@ -50,7 +50,8 @@ public class CartPage {
     }
 
     public int cantidadPrimerProducto() {
-        return Integer.parseInt(cantidadPrimerProducto.getAttribute("value"));
+        return Integer.parseInt(
+        cantidadPrimerProducto.getDomProperty("value"));
     }
 
     public BigDecimal precioUnitarioPrimerProducto() {
