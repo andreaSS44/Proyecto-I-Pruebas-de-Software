@@ -1,6 +1,7 @@
 package cr.ac.utn.proyecto1.pages;
 
 import java.time.Duration;
+import java.math.BigDecimal;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +11,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CartPage {
+    private final WebDriver driver;
+
+    @FindBy(name = "updatecart")
+    private WebElement botonActualizar;
+
+    @FindBy(css = ".cart .cart-item-row .product-unit-price")
+    private WebElement precioUnitario;
+
+    @FindBy(css = ".cart .cart-item-row .product-subtotal")
+    private WebElement subtotal;
+
     @FindBy(css = ".shopping-cart-page")
     private WebElement pagina;
 
@@ -23,6 +35,7 @@ public class CartPage {
     private WebElement cantidadPrimerProducto;
 
     public CartPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOf(pagina));
@@ -38,5 +51,25 @@ public class CartPage {
 
     public int cantidadPrimerProducto() {
         return Integer.parseInt(cantidadPrimerProducto.getAttribute("value"));
+    }
+
+    public BigDecimal precioUnitarioPrimerProducto() {
+        return new BigDecimal(precioUnitario.getText().trim().replace(",", ""));
+    }
+
+    public BigDecimal subtotalPrimerProducto() {
+        return new BigDecimal(subtotal.getText().trim().replace(",", ""));
+    }
+
+    public CartPage actualizarCantidadPrimerProducto(int unidades) {
+        cantidadPrimerProducto.clear();
+        cantidadPrimerProducto.sendKeys(String.valueOf(unidades));
+        // Guardar el elemento real permite esperar a que termine la recarga del carrito.
+        WebElement campoAnterior = cantidadPrimerProducto;
+        WebElement elementoAnterior = ((org.openqa.selenium.WrapsElement) campoAnterior).getWrappedElement();
+        botonActualizar.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.stalenessOf(elementoAnterior));
+        return new CartPage(driver);
     }
 }
