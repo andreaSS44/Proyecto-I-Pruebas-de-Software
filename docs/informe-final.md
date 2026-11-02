@@ -18,9 +18,13 @@
 
 <!-- Incorporar aquí el aporte de la Persona 3. -->
 
-### Persona 4
+### Persona 4 (RF-09, RF-10, RF-11)
 
-<!-- Incorporar aquí el aporte de la Persona 4. -->
+Se elaboraron ocho casos de prueba, CP-025 a CP-032. Se automatizaron cuatro: CP-025 (compra completa como invitado), CP-026 (compra sin aceptar los términos y condiciones), CP-027 (modificación de información personal) y CP-028 (suscripción válida al boletín).
+
+Los otros cuatro casos se ejecutaron manualmente: CP-029 (correo inválido en boletín), CP-030 (cambio de contraseña), CP-031 (historial de pedidos vacío) y CP-032 (votación sin seleccionar una respuesta).
+
+Se utilizó Page Object Model con Page Factory para organizar las acciones de las páginas y mantener las pruebas separadas.
 
 ## Retos y soluciones
 
@@ -43,7 +47,11 @@
 
 ### Persona 4
 
-<!-- Incorporar aquí el aporte de la Persona 4. -->
+| Reto | Solución |
+| --- | --- |
+| El proceso de compra tenía varios pasos | Se organizaron las acciones en `CheckoutPage` para ejecutar el flujo completo |
+| La validación de términos no se comportaba como una alerta tradicional | Se verificó el mensaje que muestra la página |
+| Era necesario conocer los mensajes exactos del sitio | Se realizaron pruebas manuales para comprobarlos antes de documentarlos |
 
 ## Hallazgos
 
@@ -61,7 +69,14 @@
 
 ### Persona 4
 
-<!-- Incorporar aquí el aporte de la Persona 4. -->
+- CP-025: Se completó correctamente la compra como invitado.
+- CP-026: El sistema impidió continuar sin aceptar los términos y condiciones.
+- CP-027: Se verificó la modificación de información personal.
+- CP-028: Se verificó la suscripción con un correo válido.
+- CP-029: El sistema mostró `Enter valid email` al ingresar un correo inválido.
+- CP-030: El sistema mostró `Password was changed` después de cambiar la contraseña.
+- CP-031: El historial de una cuenta sin compras mostró `No orders`.
+- CP-032: La encuesta mostró `Please select an answer` al intentar votar sin seleccionar una opción.
 
 ## Aprendizajes
 
@@ -79,4 +94,7 @@
 
 ### Persona 4
 
-<!-- Incorporar aquí el aporte de la Persona 4. -->
+- Aprendí a automatizar un proceso de compra que requiere varios pasos.
+- Reforcé el uso de Selenium, JUnit 5 y Page Factory.
+- Comprendí la importancia de verificar los mensajes reales que muestra el sitio.
+- Aprendí a combinar pruebas manuales y automatizadas para cubrir diferentes funcionalidades.
