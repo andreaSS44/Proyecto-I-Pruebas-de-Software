@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CartPage {
+
     private final WebDriver driver;
 
     @FindBy(name = "updatecart")
@@ -34,9 +35,18 @@ public class CartPage {
     @FindBy(css = ".cart .cart-item-row .qty-input")
     private WebElement cantidadPrimerProducto;
 
+    // Elementos para realizar la compra
+
+    @FindBy(id = "termsofservice")
+    private WebElement terminos;
+
+    @FindBy(id = "checkout")
+    private WebElement botonCheckout;
+
     public CartPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOf(pagina));
     }
@@ -51,26 +61,51 @@ public class CartPage {
 
     public int cantidadPrimerProducto() {
         return Integer.parseInt(
-        cantidadPrimerProducto.getDomProperty("value"));
+                cantidadPrimerProducto.getDomProperty("value"));
     }
 
     public BigDecimal precioUnitarioPrimerProducto() {
-        return new BigDecimal(precioUnitario.getText().trim().replace(",", ""));
+        return new BigDecimal(
+                precioUnitario.getText().trim().replace(",", ""));
     }
 
     public BigDecimal subtotalPrimerProducto() {
-        return new BigDecimal(subtotal.getText().trim().replace(",", ""));
+        return new BigDecimal(
+                subtotal.getText().trim().replace(",", ""));
     }
 
     public CartPage actualizarCantidadPrimerProducto(int unidades) {
         cantidadPrimerProducto.clear();
         cantidadPrimerProducto.sendKeys(String.valueOf(unidades));
-        // Guardar el elemento real permite esperar a que termine la recarga del carrito.
+
         WebElement campoAnterior = cantidadPrimerProducto;
-        WebElement elementoAnterior = ((org.openqa.selenium.WrapsElement) campoAnterior).getWrappedElement();
+        WebElement elementoAnterior =
+                ((org.openqa.selenium.WrapsElement) campoAnterior)
+                        .getWrappedElement();
+
         botonActualizar.click();
+
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.stalenessOf(elementoAnterior));
+
         return new CartPage(driver);
     }
+
+    // Aceptar los terminos y condiciones
+
+    public CartPage aceptarTerminos() {
+        if (!terminos.isSelected()) {
+            terminos.click();
+        }
+        return this;
+    }
+
+    // Continuar con el proceso de compra
+
+    public void continuarCompra() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(botonCheckout))
+                .click();
+    }
 }
+
