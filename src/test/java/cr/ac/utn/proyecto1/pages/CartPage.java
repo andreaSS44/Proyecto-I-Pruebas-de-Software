@@ -1,3 +1,4 @@
+
 package cr.ac.utn.proyecto1.pages;
 
 import java.time.Duration;
@@ -5,6 +6,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -107,5 +110,27 @@ public class CartPage {
                 .until(ExpectedConditions.elementToBeClickable(botonCheckout))
                 .click();
     }
-}
 
+    // Obtener mensaje cuando no se aceptan los terminos
+
+    public String mensajeSinAceptarTerminos() {
+
+        WebDriverWait espera = new WebDriverWait(
+                driver, Duration.ofSeconds(10));
+
+        try {
+            // Revisar si aparece una alerta
+            return espera.until(
+                    ExpectedConditions.alertIsPresent()).getText();
+
+        } catch (TimeoutException e) {
+
+            // Si no hay alerta, revisar el mensaje de la pagina
+            return espera.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            By.cssSelector("#terms-of-service-warning-box")
+                    )
+            ).getText().trim();
+        }
+    }
+}

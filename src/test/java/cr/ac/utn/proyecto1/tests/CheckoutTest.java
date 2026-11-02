@@ -75,4 +75,32 @@ public class CheckoutTest extends BaseTest {
                 checkout.obtenerMensajeConfirmacion()
         );
     }
+    
+    
+    @Test
+    @DisplayName("CP-026 - Compra sin aceptar terminos")
+    void compraSinAceptarTerminos() {
+
+        // Abrir un producto
+        ProductPage producto = new ProductPage(driver);
+
+        producto.abrir(
+                "https://demowebshop.tricentis.com/computing-and-internet");
+
+        // Agregar al carrito
+        producto.agregarAlCarrito(1);
+
+        // Abrir el carrito
+        CartPage carrito = producto.abrirCarrito();
+
+        // Intentar comprar sin aceptar los terminos
+        carrito.continuarCompra();
+
+        // Verificar el mensaje de advertencia
+        assertEquals(
+                "Please accept the terms of service before the next step.",
+                carrito.mensajeSinAceptarTerminos()
+        );
+    }
+
 }
