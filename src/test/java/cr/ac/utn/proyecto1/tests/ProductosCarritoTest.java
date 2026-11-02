@@ -3,6 +3,7 @@ package cr.ac.utn.proyecto1.tests;
 import cr.ac.utn.proyecto1.base.BaseTest;
 import cr.ac.utn.proyecto1.pages.CartPage;
 import cr.ac.utn.proyecto1.pages.ProductPage;
+import cr.ac.utn.proyecto1.pages.WishlistPage;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ProductosCarritoTest extends BaseTest {
+    @Test
+    @DisplayName("CP-016 Agregar producto a deseos y moverlo al carrito - RF-07")
+    void agregarADeseosYMoverAlCarrito() {
+        String nombreEsperado = "Black & White Diamond Heart";
+        WishlistPage deseos = new ProductPage(driver)
+                .abrir("https://demowebshop.tricentis.com/black-white-diamond-heart")
+                .agregarAListaDeDeseos(1).abrirListaDeDeseos();
+
+        assertAll(
+                () -> assertEquals(1, deseos.numeroDeProductos()),
+                () -> assertEquals(nombreEsperado, deseos.nombrePrimerProducto()),
+                () -> assertEquals(1, deseos.cantidadPrimerProducto()));
+
+        CartPage carrito = deseos.moverPrimerProductoAlCarrito();
+
+        assertAll(
+                () -> assertEquals(1, carrito.numeroDeProductos()),
+                () -> assertEquals(nombreEsperado, carrito.nombrePrimerProducto()),
+                () -> assertEquals(1, carrito.cantidadPrimerProducto()));
+    }
+
     @Test
     @DisplayName("CP-015 Producto sin opcion obligatoria no se agrega al carrito - RF-06")
     void productoSinDiscoObligatorio() {

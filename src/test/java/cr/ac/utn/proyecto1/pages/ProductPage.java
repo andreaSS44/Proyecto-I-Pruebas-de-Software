@@ -40,6 +40,12 @@ public class ProductPage {
     @FindBy(id = "bar-notification")
     private WebElement aviso;
 
+    @FindBy(css = ".product-essential .add-to-wishlist-button")
+    private WebElement botonDeseos;
+
+    @FindBy(css = "#bar-notification.success .content a[href='/wishlist']")
+    private WebElement enlaceDeseos;
+
     @FindBy(css = ".product-essential .attributes input[type='radio'][name='product_attribute_16_3_6']")
     private List<WebElement> opcionesDisco;
 
@@ -57,6 +63,19 @@ public class ProductPage {
 
     public String nombreProducto() {
         return nombre.getText().trim();
+    }
+
+    public ProductPage agregarAListaDeDeseos(int unidades) {
+        cantidad.clear();
+        cantidad.sendKeys(String.valueOf(unidades));
+        espera.until(ExpectedConditions.elementToBeClickable(botonDeseos)).click();
+        espera.until(ExpectedConditions.visibilityOf(enlaceDeseos));
+        return this;
+    }
+
+    public WishlistPage abrirListaDeDeseos() {
+        espera.until(ExpectedConditions.elementToBeClickable(enlaceDeseos)).click();
+        return new WishlistPage(driver);
     }
 
     public ProductPage agregarAlCarrito(int unidades) {
