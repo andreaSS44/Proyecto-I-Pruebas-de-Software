@@ -1,0 +1,7 @@
+target/
+.idea/
+.vscode/
+*.class
+~$*
+docs/laboratorio2/
+.DS_Store
